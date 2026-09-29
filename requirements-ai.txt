@@ -1,0 +1,3 @@
+faster-whisper
+opencv-python-headless
+numpy

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="hi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5b5bf0"><link rel="manifest" href="/manifest.json"><link rel="icon" href="/icon.svg">
+<title>Auto Director</title>
+<style>
+:root{--bg:#f4f5fa;--card:#fff;--tx:#141824;--mu:#667085;--ac:#5b5bf0;--ac2:#8b5cf6;--bd:#e3e6ef;--ok:#12b76a}
+@media(prefers-color-scheme:dark){:root{--bg:#0d0f15;--card:#171a23;--tx:#eef0f6;--mu:#98a2b3;--bd:#272c3a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif;padding:14px;padding-bottom:40px}
+.w{max-width:600px;margin:0 auto}
+header{display:flex;align-items:center;gap:10px;margin:6px 0 12px}header img{width:38px;height:38px;border-radius:10px}
+h1{font-size:21px;margin:0}.s{color:var(--mu);font-size:13px;margin:0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px}
+.chip{flex:none;padding:8px 13px;border-radius:20px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:13px;width:auto;margin:0;font-weight:500}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+.c h2{font-size:14px;margin:0 0 4px;display:flex;align-items:center;gap:6px}
+label{display:block;font-size:12.5px;color:var(--mu);margin:10px 0 4px}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:15px;font-family:inherit}
+input[type=file]{padding:8px;font-size:13px}
+.r{display:flex;gap:10px}.r>div{flex:1;min-width:0}
+.k{display:flex;align-items:center;gap:9px;margin-top:10px;font-size:14px;color:var(--tx)}.k input{width:18px;height:18px;padding:0}
+button{width:100%;padding:13px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-size:16px;font-weight:650;margin-top:6px}
+button.g{background:var(--bg);color:var(--tx);border:1px solid var(--bd);font-size:14px;font-weight:600}
+button:disabled{opacity:.5}
+.bar{height:9px;background:var(--bd);border-radius:6px;overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));transition:width .5s}
+#msg{font-size:14px;margin-top:10px;color:var(--mu)}
+video{width:100%;border-radius:12px;background:#000;max-height:70vh}
+.p{font-size:12.5px;color:var(--mu);line-height:1.7;margin-top:10px}.p b{color:var(--tx)}
+.tg{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:1px 7px;margin:2px 3px 2px 0;font-size:11.5px}
+.rec{font-size:13px;color:var(--ac);margin-top:6px;cursor:pointer}
+</style></head><body><div class="w">
+<header><img src="/icon.svg" alt=""><div><h1>Auto Director</h1><p class="s">Upload karo. Engine khud edit karke video dega.</p></div></header>
+
+<div class="chips">
+<button class="chip" data-p="reels">📱 Reels / Shorts</button><button class="chip" data-p="yt">▶️ YouTube</button>
+<button class="chip" data-p="talk">🎙️ Talking video</button><button class="chip" data-p="cine">🎬 Cinematic</button><button class="chip" data-p="draft">⚡ Fast draft</button>
+</div>
+
+<div class="c"><h2>1 · Video</h2>
+<label>Video files (ek ya zyada, order mein judenge)</label><input id="f" type="file" accept="video/*" multiple></div>
+
+<div class="c"><h2>2 · Look &amp; Size</h2>
+<div class="r"><div><label>Size</label><select id="aspect"><option value="auto">Auto</option><option value="9:16">9:16 Reels/Shorts</option><option value="16:9">16:9 YouTube</option><option value="1:1">1:1 Square</option></select></div>
+<div><label>Style / look</label><select id="style"><option value="auto">Auto</option><option value="cinematic">Cinematic</option><option value="vivid">Vivid</option><option value="warm">Warm</option><option value="vintage">Vintage</option><option value="bw">Black &amp; White</option></select></div></div>
+<div class="r"><div><label>Quality</label><select id="quality"><option value="draft">Draft (tez, 720p)</option><option value="standard" selected>Standard 1080p</option><option value="high">High (slow, best)</option></select></div>
+<div><label>Max seconds (0 = auto)</label><input id="max" type="number" value="0" min="0"></div></div>
+<label class="k"><input id="stab" type="checkbox"> Hilna kam karo (stabilize)</label>
+<label class="k"><input id="enh" type="checkbox"> Video noise saaf (enhance)</label>
+<label class="k"><input id="smart" type="checkbox"> Smart speed (best moment slow-mo, dull hissa fast)</label>
+<label class="k"><input id="prog" type="checkbox"> Neeche progress bar</label></div>
+
+<div class="c"><h2>3 · Audio</h2>
+<label>Background music (optional)</label><input id="music" type="file" accept="audio/*">
+<label class="k"><input id="beat" type="checkbox" checked> Beat-sync (cuts music ke beat par)</label>
+<p class="s" style="margin-top:6px">Noise saaf, loudness barabar aur music awaaz ke neeche khud dab jaata hai.</p></div>
+
+<div class="c"><h2>4 · Extras</h2>
+<div class="r"><div><label>Intro title</label><input id="intro" maxlength="60" placeholder="Mera Vlog"></div><div><label>Outro title</label><input id="outro" maxlength="60" placeholder="Subscribe karo!"></div></div>
+<div class="r"><div><label>Text / watermark</label><input id="text" placeholder="@mychannel"></div><div><label>Text jagah</label><select id="textpos"><option value="top">Upar</option><option value="bottom">Neeche</option></select></div></div>
+<div class="r"><div><label>Logo (PNG)</label><input id="logo" type="file" accept="image/*"></div><div><label>Logo jagah</label><select id="logopos"><option value="tr">Upar right</option><option value="tl">Upar left</option><option value="br">Neeche right</option><option value="bl">Neeche left</option></select></div></div>
+<label>Captions file .srt (cuts ke hisaab se time khud adjust)</label><input id="srt" type="file" accept=".srt"></div>
+
+<div class="c"><h2>5 · 🤖 AI features</h2><p class="s" id="aistat">Server check ho raha hai...</p>
+<label class="k"><input id="autocap" type="checkbox"> Auto captions (Whisper, bolne se text)</label>
+<label>Bhasha</label><select id="lang"><option value="">Auto pehchano</option><option value="hi">Hindi</option><option value="en">English</option><option value="ur">Urdu</option><option value="bn">Bengali</option><option value="ta">Tamil</option><option value="te">Telugu</option><option value="mr">Marathi</option></select>
+<label class="k"><input id="clean" type="checkbox"> Filler words hatao (um, uh, hmm)</label>
+<label class="k"><input id="track" type="checkbox"> Subject tracking reframe (face / movement follow)</label>
+<label class="k"><input id="aimeta" type="checkbox"> AI title, description, hashtags (Claude)</label></div>
+<button id="go">✨ Edit shuru karo</button><div id="msg"></div><div class="bar" id="bw" hidden><i id="b"></i></div>
+
+<div class="c" id="res" hidden style="margin-top:14px"><h2>✅ Video ready</h2>
+<video id="v" controls playsinline></video>
+<div class="r" style="margin-top:10px"><div><button id="dl">⬇️ Save video</button></div><div><button id="share" class="g">📤 Share</button></div></div>
+<button class="g" id="again">Naya video</button><div class="p" id="warn" style="color:#dc6803"></div><div class="p" id="meta"></div><div class="p" id="plan"></div></div>
+<div class="p" id="recent"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+async function api(u,o={}){const k=localStorage.getItem("key");if(k)o.headers={...(o.headers||{}),"X-Key":k};
+ const r=await fetch(u,o);if(r.status===401){const n=prompt("Access key daalo:");if(n){localStorage.setItem("key",n);document.cookie="key="+n+";path=/;max-age=31536000";return api(u,o)}}return r}
+const P={reels:{aspect:"9:16",style:"vivid",quality:"standard",beat:1,smart:1,prog:1,track:1,autocap:1},yt:{aspect:"16:9",style:"auto",quality:"high",smart:0,prog:0},
+ talk:{aspect:"auto",style:"warm",enh:1,smart:0,beat:0,autocap:1,clean:1},cine:{aspect:"16:9",style:"cinematic",quality:"high",smart:1},draft:{quality:"draft"}};
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{const p=P[c.dataset.p];
+ for(const[k,v]of Object.entries(p)){const e=$({smart:"smart",prog:"prog",enh:"enh",beat:"beat"}[k]||k);if(e.disabled)continue;if(e.type==="checkbox")e.checked=!!v;else e.value=v}
+ $("msg").textContent="Preset lag gaya: "+c.textContent});
+function rec(id,name){let l=JSON.parse(localStorage.getItem("rec")||"[]").filter(x=>x.id!==id);l.unshift({id,name,t:Date.now()});localStorage.setItem("rec",JSON.stringify(l.slice(0,5)));showRec()}
+function showRec(){const l=JSON.parse(localStorage.getItem("rec")||"[]").filter(x=>Date.now()-x.t<3300000);
+ $("recent").innerHTML=l.length?"Haal ke videos (1 ghante tak): "+l.map(x=>`<div class="rec" onclick="show('${x.id}')">▶ ${x.name}</div>`).join(""):""}
+async function show(id){const j=await(await api("/jobs/"+id)).json();if(j.status!=="done"){$("msg").textContent="Ye video ab available nahi.";return}
+ const u="/jobs/"+id+"/download";$("v").src=u;$("v").poster=j.thumb?"/jobs/"+id+"/thumb":"";$("dl").onclick=()=>{const a=document.createElement("a");a.href=u;a.download="video.mp4";a.click()};
+ $("share").onclick=async()=>{try{const b=await(await api(u)).blob(),f=new File([b],"video.mp4",{type:"video/mp4"});
+  if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f]});else $("dl").click()}catch(e){}};
+ $("plan").innerHTML=j.plan.map(p=>`<b>Clip ${p.clip}</b> · ${p.type} · ${p.source_sec}s → ${p.final_sec}s (${p.kept_percent}% rakha, ${p.cuts} cuts)<br>`+
+  [p.size,"bg "+p.background,"look "+p.style,p.quality,p.zoom_punch&&"zoom",p.denoise&&"noise saaf",p.beat_sync&&"beat-sync",p.transitions&&"transitions",p.smart_speed&&"smart speed",p.captions&&p.captions+" captions",p.auto_captions&&"AI captions",p.tracked&&"AI tracking",p.fillers_removed&&p.fillers_removed+" fillers hate"].filter(Boolean).map(t=>`<span class="tg">${t}</span>`).join("")).join("<br>");
+ $("warn").innerHTML=(j.warnings||[]).map(w=>"⚠️ "+w).join("<br>");
+ const m=j.meta;$("meta").innerHTML=m?`<b>🤖 AI suggestion</b><br><b>${m.title}</b><br>${m.description}<br>${(m.hashtags||[]).join(" ")}<br><button class="g" onclick="navigator.clipboard.writeText(${JSON.stringify(m.title+"\n\n"+m.description+"\n\n"+(m.hashtags||[]).join(" ")).replace(/"/g,"&quot;")})">📋 Copy</button>`:"";
+ $("res").hidden=false;$("res").scrollIntoView({behavior:"smooth"})}
+$("again").onclick=()=>{$("res").hidden=true;$("v").removeAttribute("src");$("f").value="";$("msg").textContent="";$("bw").hidden=true;scrollTo({top:0,behavior:"smooth"})};
+$("go").onclick=async()=>{
+ const fs=$("f").files;if(!fs.length){$("msg").textContent="Pehle video chuno.";return}
+ const fd=new FormData();for(const f of fs)fd.append("files",f);
+ for(const k of["music","logo","srt"])if($(k).files[0])fd.append(k,$(k).files[0]);
+ const T={aspect:"aspect",style:"style",quality:"quality",max_duration:"max",text:"text",text_pos:"textpos",logo_pos:"logopos",intro:"intro",outro:"outro"};
+ for(const[k,v]of Object.entries(T))fd.append(k,$(v).value);
+ fd.append("lang",$("lang").value);for(const[k,v]of Object.entries({autocap:"autocap",cleanspeech:"clean",track:"track",aimeta:"aimeta"}))fd.append(k,$(v).checked);
+ for(const[k,v]of Object.entries({stabilize:"stab",enhance:"enh",smartspeed:"smart",progress:"prog",beat:"beat"}))fd.append(k,$(v).checked);
+ $("go").disabled=true;$("res").hidden=true;$("bw").hidden=false;$("b").style.width="3%";$("msg").textContent="Upload ho raha hai...";
+ try{const r=await api("/jobs",{method:"POST",body:fd});if(!r.ok)throw new Error(r.status===413?"File bahut badi hai":((await r.json().catch(()=>({}))).detail||"Upload fail"));
+  const{job_id}=await r.json();
+  while(true){await new Promise(s=>setTimeout(s,1500));const j=await(await api("/jobs/"+job_id)).json();
+   $("b").style.width=Math.max(5,j.progress)+"%";$("msg").textContent=j.step;
+   if(j.status==="failed")throw new Error(j.error||"Edit fail");
+   if(j.status==="done"){rec(job_id,fs[0].name+(fs.length>1?" +"+(fs.length-1):""));await show(job_id);$("msg").textContent="Ho gaya ✅";break}}
+ }catch(e){$("msg").textContent="Error: "+e.message}
+ $("go").disabled=false};
+showRec();
+fetch("/health").then(r=>r.json()).then(h=>{const a=h.ai||{};
+ [["autocap",a.whisper],["clean",a.whisper],["track",a.opencv],["aimeta",a.llm&&a.whisper]].forEach(([id,ok])=>{if(!ok){$(id).disabled=true;$(id).parentElement.style.opacity=.45}});
+ $("aistat").textContent=`Server AI: Whisper ${a.whisper?"✓":"✗"} · OpenCV ${a.opencv?"✓":"✗"} · Claude ${a.llm?"✓":"✗"} (✗ wale option band hain)`}).catch(()=>{$("aistat").textContent=""});
+</script></body></html>
